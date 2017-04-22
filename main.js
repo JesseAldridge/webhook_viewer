@@ -8,7 +8,6 @@ var port = (process.argv.length == 3) ? parseInt(process.argv[2]) : 80
 app.use(bodyParser.json());
 
 app.get("/", function (req, res) {
-  console.log("req:", req)
   res.send("Hello express World!")
 })
 
