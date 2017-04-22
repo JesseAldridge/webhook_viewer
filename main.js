@@ -1,6 +1,9 @@
 var express = require("express")
 var bodyParser = require("body-parser")
+
 var app = express()
+
+var port = (process.argv.length == 3) ? parseInt(process.argv[2]) : 80
 
 app.use(bodyParser.json());
 
@@ -18,6 +21,6 @@ endpoints.forEach(function(name) {
   })
 })
 
-app.listen(3000, function () {
-  console.log("Example app listening on port 3000!")
+app.listen(port, function () {
+  console.log("Example app listening on port {}!".replace("{}", port))
 })
