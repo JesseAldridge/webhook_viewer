@@ -1,13 +1,19 @@
 var fs = require('fs')
 
 var express = require("express")
+var exphbs  = require('express-handlebars')
 var bodyParser = require("body-parser")
 
 var app = express()
 
 var port = (process.argv.length == 3) ? parseInt(process.argv[2]) : 80
 
-app.use(bodyParser.json());
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+app.use(bodyParser.json())
+
+// Validate to make sure params are safe to write to filesystem.
 
 function validate_user(req, res, next) {
   var user = req.params.user
@@ -52,8 +58,8 @@ app.use("/:user", validate_user)
 app.use("/:user/:endpoint", validate_user)
 app.use("/:user/:endpoint", validate_endpoint)
 
-app.get("/", function (req, res) {
-  res.send("Hello express World!")
+app.get('/', function (req, res) {
+  res.render('index')
 })
 
 app.get("/:user", function(req, res) {
@@ -61,11 +67,12 @@ app.get("/:user", function(req, res) {
 
   var endpoint_to_records = {}
   fs.readdirSync(req.dir_path).forEach(function(endpoint) {
-    var endpoint_dir_path = user_dir_path + '/' + endpoint
+    var endpoint_dir_path = req.dir_path + '/' + endpoint
     if(fs.lstatSync(endpoint_dir_path).isDirectory())
       endpoint_to_records[endpoint] = get_records(endpoint_dir_path)
   })
-  res.send(endpoint_to_records)
+
+  res.render('user', {endpoint_to_records: endpoint_to_records})
 })
 
 app.post("/:user/:endpoint", function (req, res) {
@@ -90,12 +97,19 @@ function get_records(dir_path) {
   // Return the timestamped contents of all the files in the passed endpoint dir.
 
   var records = []
-  fs.readdirSync(dir_path).forEach(function(filename) {
+  var filenames = fs.readdirSync(dir_path)
+  var filtered = []
+  filenames.forEach(function(filename) {
     if(!/^[0-9]+/.exec(filename))
       return
-    var content = fs.readFileSync(dir_path + '/' + filename, 'utf8')
-    records.push({dt_iso: filename, content: content})
+    filtered.push(filename)
   })
+  filenames = filtered
+  filenames.sort().reverse()
+  for(var i = 0; i < Math.min(10, filenames.length); i++) {
+    var content = fs.readFileSync(dir_path + '/' + filenames[i], 'utf8')
+    records.push({dt_iso: filenames[i], content: content})
+  }
   return records
 }
 

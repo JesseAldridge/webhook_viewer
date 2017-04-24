@@ -1,0 +1,44 @@
+<style>
+* {
+  font-family: Helvetica
+}
+
+.endpoint {
+  padding: 5px;
+  margin: 5px;
+  margin-top: 10px;
+  border-left: solid 1px #666;
+}
+
+.record {
+  margin: 5px;
+  padding: 5px;
+  margin-top: 10px;
+}
+
+.datetime {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.content {
+  overflow: scroll;
+  border: solid 1px;
+}
+
+
+</style>
+
+
+{{#each endpoint_to_records}}
+  <div class='endpoint'>
+    /{{@key}}
+    {{#each this}}
+      <div class='record'>
+        <div class='datetime'>{{this.dt_iso}}</div>
+        <div class='content'>{{this.content}}</div>
+      </div>
+    {{/each}}
+  </div>
+{{/each}}
