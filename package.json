@@ -1,7 +1,7 @@
 {
-  "name": "timekit_viewer",
+  "name": "request viewer",
   "version": "1.0.0",
-  "description": "view webhook payloads",
+  "description": "view request payloads",
   "main": "main.js",
   "dependencies": {
     "body-parser": "^1.17.1",
