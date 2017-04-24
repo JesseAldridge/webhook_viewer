@@ -25,6 +25,7 @@
 .content {
   overflow: scroll;
   border: solid 1px;
+  max-height: 200px;
 }
 
 
@@ -37,7 +38,7 @@
     {{#each this}}
       <div class='record'>
         <div class='datetime'>{{this.dt_iso}}</div>
-        <div class='content'>{{this.content}}</div>
+        <pre class='content'>{{this.content}}</pre>
       </div>
     {{/each}}
   </div>
