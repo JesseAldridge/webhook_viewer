@@ -23,12 +23,10 @@
 }
 
 .content {
-  overflow: scroll;
-  border: solid 1px;
-  max-height: 200px;
+  font-size: 14px;
+  width: 800px;
+  max-height: 300px;
 }
-
-
 </style>
 
 
@@ -38,7 +36,7 @@
     {{#each this}}
       <div class='record'>
         <div class='datetime'>{{this.dt_iso}}</div>
-        <pre class='content'>{{this.content}}</pre>
+        <textarea class='content'>{{this.content}}</textarea>
       </div>
     {{/each}}
   </div>
