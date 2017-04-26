@@ -7,6 +7,9 @@
   padding: 5px;
   margin: 5px;
   margin-top: 10px;
+}
+
+.records {
   border-left: solid 1px #666;
 }
 
@@ -14,6 +17,7 @@
   margin: 5px;
   padding: 5px;
   margin-top: 10px;
+  margin-left: 10px;
 }
 
 .datetime {
@@ -25,19 +29,21 @@
 .content {
   font-size: 14px;
   width: 800px;
-  max-height: 300px;
+  height: 200px;
 }
 </style>
 
 
 {{#each endpoint_to_records}}
   <div class='endpoint'>
-    /{{@key}}
-    {{#each this}}
-      <div class='record'>
-        <div class='datetime'>{{this.dt_iso}}</div>
-        <textarea class='content'>{{this.content}}</textarea>
-      </div>
-    {{/each}}
+    <div>/{{@key}}</div>
+    <div class='records'>
+      {{#each this}}
+        <div class='record'>
+          <div class='datetime'>{{this.dt_iso}}</div>
+          <textarea class='content'>{{this.content}}</textarea>
+        </div>
+      {{/each}}
+    </div>
   </div>
 {{/each}}
